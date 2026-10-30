@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medicine-stock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: medicine-stock
+  template:
+    metadata:
+      labels:
+        app: medicine-stock
+    spec:
+      containers:
+        - name: medicine-stock
+          image: YOUR_DOCKERHUB_USERNAME/medicine-expiry-stock:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DB_PATH
+              value: /data/medicines.db
+            - name: EXPIRY_WARNING_DAYS
+              value: "30"
+            - name: SECRET_KEY
+              value: "replace-this-before-production"
+          volumeMounts:
+            - name: medicine-data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: medicine-data
+          persistentVolumeClaim:
+            claimName: medicine-data-pvc

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Expiry alerts{% endblock %}{% block heading %}Expiry management{% endblock %}
+{% block content %}
+<p class="intro">Review expired medicines and products approaching their expiry date. Warning window: {{ warning_days }} days.</p>
+<section class="panel"><div class="panel-head"><div><h3>Expired medicines</h3><p>Past their recorded expiry date</p></div><span class="pill expired">{{ expired|length }} items</span></div>
+{% if expired %}<div class="table-wrap"><table><thead><tr><th>Medicine</th><th>Batch</th><th>Quantity</th><th>Expiry date</th><th></th></tr></thead><tbody>{% for m in expired %}<tr><td><strong>{{ m.name }}</strong></td><td>{{ m.batch_number }}</td><td>{{ m.quantity }}</td><td>{{ m.expiry_date }}</td><td><a href="{{ url_for('edit_medicine', medicine_id=m.id) }}">Review</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No expired medicines found.</div>{% endif %}</section>
+<section class="panel"><div class="panel-head"><div><h3>Expiring soon</h3><p>Expiry date falls within the warning window</p></div><span class="pill expiring-soon">{{ expiring|length }} items</span></div>
+{% if expiring %}<div class="table-wrap"><table><thead><tr><th>Medicine</th><th>Batch</th><th>Quantity</th><th>Expiry date</th><th></th></tr></thead><tbody>{% for m in expiring %}<tr><td><strong>{{ m.name }}</strong></td><td>{{ m.batch_number }}</td><td>{{ m.quantity }}</td><td>{{ m.expiry_date }}</td><td><a href="{{ url_for('edit_medicine', medicine_id=m.id) }}">Review</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No medicines expiring soon.</div>{% endif %}</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Medicine Stock{% endblock %} | MediTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-icon">✚</span><div><strong>MediTrack</strong><small>Inventory control</small></div></div>
+    <nav>
+      <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">▦ <span>Dashboard</span></a>
+      <a href="{{ url_for('medicines') }}" class="{{ 'active' if request.endpoint in ['medicines','add_medicine','edit_medicine'] else '' }}">▤ <span>Medicine stock</span></a>
+      <a href="{{ url_for('expiry') }}" class="{{ 'active' if request.endpoint == 'expiry' else '' }}">◷ <span>Expiry alerts</span></a>
+      <a href="{{ url_for('reports') }}" class="{{ 'active' if request.endpoint == 'reports' else '' }}">▥ <span>Reports</span></a>
+    </nav>
+    <div class="sidebar-note"><strong>Stock smart.</strong><p>Keep medicines organised, available and safe to use.</p></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">INVENTORY MANAGEMENT</span><h1>{% block heading %}Dashboard{% endblock %}</h1></div><div class="avatar">MS</div></header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+    <footer>MediTrack · Medicine Expiry & Stock Management</footer>
+  </main>
+</body>
+</html>

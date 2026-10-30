@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if medicine else 'Add' }} medicine{% endblock %}{% block heading %}{{ 'Edit medicine' if medicine else 'Add medicine' }}{% endblock %}
+{% block content %}
+<p class="intro">Enter accurate batch, stock and expiry information.</p>
+<section class="panel form-panel"><form method="post" class="medicine-form">
+<label>Medicine name *<input required name="name" value="{{ medicine.name if medicine else '' }}" placeholder="e.g. Paracetamol"></label>
+<label>Batch number *<input required name="batch_number" value="{{ medicine.batch_number if medicine else '' }}" placeholder="e.g. PCM-2026-01"></label>
+<label>Category<input name="category" value="{{ medicine.category if medicine else 'General' }}" placeholder="Tablet, Syrup, Capsule..."></label>
+<label>Quantity *<input required type="number" min="0" name="quantity" value="{{ medicine.quantity if medicine else 0 }}"></label>
+<label>Unit price (₹)<input required type="number" min="0" step="0.01" name="unit_price" value="{{ medicine.unit_price if medicine else 0 }}"></label>
+<label>Expiry date *<input required type="date" name="expiry_date" value="{{ medicine.expiry_date if medicine else '' }}"></label>
+<label class="full">Supplier<input name="supplier" value="{{ medicine.supplier if medicine else '' }}" placeholder="Supplier / distributor name"></label>
+<div class="form-actions"><a class="btn light-outline" href="{{ url_for('medicines') }}">Cancel</a><button class="btn primary">Save medicine</button></div>
+</form></section>
+{% endblock %}

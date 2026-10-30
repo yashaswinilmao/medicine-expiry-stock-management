@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="welcome"><div><h2>Good inventory starts here.</h2><p>Monitor medicine quantities and expiry dates from one place.</p></div><a class="btn light" href="{{ url_for('add_medicine') }}">＋ Add medicine</a></div>
+<section class="stats">
+  <div class="stat"><span class="stat-icon blue">▤</span><small>Total medicines</small><strong>{{ total }}</strong><span class="muted">Different records</span></div>
+  <div class="stat"><span class="stat-icon red">!</span><small>Expired</small><strong>{{ expired }}</strong><span class="muted">Past expiry date</span></div>
+  <div class="stat"><span class="stat-icon amber">◷</span><small>Expiring soon</small><strong>{{ expiring }}</strong><span class="muted">Within 30 days</span></div>
+  <div class="stat"><span class="stat-icon green">▥</span><small>Total units</small><strong>{{ total_units }}</strong><span class="muted">{{ low_stock }} low-stock records</span></div>
+</section>
+<section class="panel"><div class="panel-head"><div><h3>Attention required</h3><p>Medicines that may need action</p></div><a class="text-link" href="{{ url_for('expiry') }}">View all alerts →</a></div>
+{% if alerts %}<div class="table-wrap"><table><thead><tr><th>Medicine</th><th>Batch</th><th>Quantity</th><th>Expiry date</th><th>Status</th></tr></thead><tbody>
+{% for m in alerts %}<tr><td><strong>{{ m.name }}</strong><small>{{ m.category }}</small></td><td>{{ m.batch_number }}</td><td>{{ m.quantity }}</td><td>{{ m.expiry_date }}</td><td><span class="pill {{ m|status|lower|replace(' ','-') }}">{{ m|status }}</span></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<div class="empty">All clear! No medicine alerts right now.</div>{% endif %}
+</section>
+{% endblock %}

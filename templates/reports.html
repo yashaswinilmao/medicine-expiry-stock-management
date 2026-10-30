@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}{% block heading %}Stock reports{% endblock %}
+{% block content %}
+<p class="intro">A quick summary of inventory quantity and estimated stock value.</p>
+<div class="stats two"><div class="stat"><small>Total units in stock</small><strong>{{ total_units }}</strong></div><div class="stat"><small>Estimated stock value</small><strong>₹{{ '%.2f'|format(stock_value) }}</strong></div></div>
+<section class="panel"><div class="panel-head"><div><h3>Quantity by category</h3><p>Total units grouped by medicine category</p></div></div>
+{% if category_totals %}{% for category, quantity in category_totals.items() %}<div class="bar-row"><div><strong>{{ category }}</strong><span>{{ quantity }} units</span></div><div class="bar"><i style="width:{{ (quantity / (total_units if total_units else 1) * 100)|round(1) }}%"></i></div></div>{% endfor %}{% else %}<div class="empty">Add medicines to generate reports.</div>{% endif %}
+</section>
+{% endblock %}
